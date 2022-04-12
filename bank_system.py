@@ -38,7 +38,8 @@ class BankAccount:
 
 
 class ATM:
-    amount_of_money = 150_000
+    __full_money_amount = 150_000
+    amount_of_money = __full_money_amount
 
     def __init__(self):
         self.__balance_access = False
@@ -68,7 +69,10 @@ class ATM:
                 return "Wrong PIN!"
 
     def collect_money(self, money_amount):
-        self.amount_of_money -= money_amount
+        if money_amount < self.amount_of_money:
+            self.amount_of_money -= money_amount
+            if self.amount_of_money <= 100:
+                self.amount_of_money += ATM.__full_money_amount - self.amount_of_money
 
     def get_balance_info(self, user):
         if type(user) is BankAccount:
