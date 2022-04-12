@@ -76,16 +76,9 @@ class ATM:
             ATM.amount_of_money -= money_amount
             if ATM.amount_of_money <= 1000:
                 ATM.amount_of_money += ATM.__full_money_amount - ATM.amount_of_money
+                return "Money collected!"
 
     def get_balance_info(self, user):
         if type(user) is BankAccount:
             access = self.__enter_pin(user)
             return f"Your current balance: {user.get_balance(access[1])[0]}" if access else "Wrong PIN!"
-
-
-a = ATM()
-b = BankAccount('h', 2345, 34526, balance=0)
-print(a.get_balance_info(b))
-print(a.charge_money(b, 149000))
-print(a.get_balance_info(b))
-print(a.amount_of_money)
