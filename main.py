@@ -13,7 +13,8 @@ Choose an option:
 1) Your balance
 2) Charge your balance
 3) Collect money from ATM
-4) Quit
+4) Change your pin
+5) Quit
 """
 
 atm = ATM()
@@ -23,14 +24,16 @@ while True:
     print(text)
     option = int(input("Enter a number to choose an option: "))
     if option == 1:
-        print(atm.get_balance_info(bank_account))
+        print(f"Your balance is: ${atm.get_balance_info(bank_account)}")
     elif option == 2:
         money_amount = float(input("How much money do you want to charge?\n-->"))
-        print(atm.charge_money(bank_account, money_amount))
+        print(f"Your balance was charged with ${atm.charge_money(bank_account, money_amount)}")
     elif option == 3:
         amount_of_money = float(input("How much money do you need to collect from ATM?\n-->"))
         atm.collect_money(amount_of_money)
     elif option == 4:
+        bank_account.change_pin()
+    elif option == 5:
         print("Quited!")
         break
     else:

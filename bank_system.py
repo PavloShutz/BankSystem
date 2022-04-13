@@ -1,3 +1,6 @@
+from decors_for_bank import save_func_info, take_taxes
+
+
 class BankAccount:
     def __init__(self, name, pin: int, passport, balance=0):
         self._name = name
@@ -8,6 +11,7 @@ class BankAccount:
         self.__passport = passport
         self.__balance = balance
 
+    @save_func_info
     def change_pin(self):
         pin = int(input("Enter PIN: "))
         if pin == self.__pin:
@@ -57,6 +61,8 @@ class ATM:
         access = self.get_balance_access(user, pin)
         return [access, pin]
 
+    @save_func_info
+    @take_taxes
     def charge_money(self, user, money_amount):
         if type(user) is BankAccount and money_amount < ATM.amount_of_money:
             info = self.__enter_pin(user)
@@ -66,11 +72,12 @@ class ATM:
                 ATM.amount_of_money -= money_amount
                 if ATM.amount_of_money <= 1000:
                     ATM.amount_of_money += ATM.__full_money_amount - ATM.amount_of_money
-                return "Balance charged!"
+                return money_amount
             else:
                 return "Wrong PIN!"
 
     @staticmethod
+    @save_func_info
     def collect_money(money_amount):
         if money_amount < ATM.amount_of_money:
             ATM.amount_of_money -= money_amount
@@ -78,7 +85,9 @@ class ATM:
                 ATM.amount_of_money += ATM.__full_money_amount - ATM.amount_of_money
                 return "Money collected!"
 
+    @save_func_info
+    @take_taxes
     def get_balance_info(self, user):
         if type(user) is BankAccount:
             access = self.__enter_pin(user)
-            return f"Your current balance: {user.get_balance(access[1])[0]}" if access else "Wrong PIN!"
+            return user.get_balance(access[1])[0] if access else "Wrong PIN!"
