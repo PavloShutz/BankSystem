@@ -1,7 +1,7 @@
 from bank_system import BankAccount, ATM
 
 pin = int(input("Create your pin: "))
-passport = int(input("Please, write your passport data: "))
+passport = input("Please, write your passport data: ")
 name = input("Your name: ")
 
 text = """

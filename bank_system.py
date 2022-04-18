@@ -27,16 +27,21 @@ class BankAccount:
 
     def get_balance(self, pin):
         if pin == self.__pin:
-            return [self.__balance, True]
-        return "False"
+            return self.__balance
+        return False
+
+    def __get_access(self, pin):
+        if pin == self.__pin:
+            return True
+        return False
 
     def __change_balance(self, pin, amount_of_money):
-        access = self.get_balance(pin)[1]
+        access = self.__get_access(pin)
         if access:
             self.__balance += amount_of_money
 
     def change_balance(self, terminal, pin, amount_of_money):
-        if terminal is type(ATM):
+        if isinstance(terminal, type(ATM)):
             self.__change_balance(pin, amount_of_money)
         return "Access denied!"
 
@@ -45,14 +50,11 @@ class ATM:
     __full_money_amount = 150_000
     amount_of_money = __full_money_amount
 
-    def __init__(self):
-        self.__balance_access = False
-
-    def get_balance_access(self, user, pin):
-        if type(user) is BankAccount:
+    @staticmethod
+    def get_balance_access(user, pin):
+        if isinstance(user, BankAccount):
             access = user.get_pin_info(pin)
             if access:
-                self.__balance_access = True
                 return True
         return False
 
@@ -64,7 +66,7 @@ class ATM:
     @save_func_info
     @take_taxes
     def charge_money(self, user, money_amount):
-        if type(user) is BankAccount and money_amount < ATM.amount_of_money:
+        if isinstance(user, BankAccount) and money_amount < ATM.amount_of_money:
             info = self.__enter_pin(user)
             access, pin = info[0], info[1]
             if access:
@@ -88,6 +90,6 @@ class ATM:
     @save_func_info
     @take_taxes
     def get_balance_info(self, user):
-        if type(user) is BankAccount:
+        if isinstance(user, BankAccount):
             access = self.__enter_pin(user)
-            return user.get_balance(access[1])[0] if access else "Wrong PIN!"
+            return user.get_balance(access[1]) if access else "Wrong PIN!"
