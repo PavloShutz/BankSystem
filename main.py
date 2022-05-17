@@ -1,3 +1,5 @@
+"""Bank system"""
+
 from bank_system import BankAccount, ATM
 
 pin = int(input("Create your pin: "))
@@ -26,10 +28,13 @@ while True:
     if option == 1:
         print(f"Your balance is: ${atm.get_balance_info(bank_account)}")
     elif option == 2:
-        money_amount = float(input("How much money do you want to charge?\n-->"))
-        print(f"Your balance was charged with ${atm.charge_money(bank_account, money_amount)}")
+        money_amount = float(input("How much money "
+                                   "do you want to charge?\n-->"))
+        print("Your balance was charged with "
+              f"${atm.charge_money(bank_account, money_amount)}")
     elif option == 3:
-        amount_of_money = float(input("How much money do you need to collect from ATM?\n-->"))
+        amount_of_money = float(input("How much money do "
+                                      "you need to collect from ATM?\n-->"))
         atm.collect_money(amount_of_money)
     elif option == 4:
         bank_account.change_pin()
